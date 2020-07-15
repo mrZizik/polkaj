@@ -21,3 +21,4 @@ scripts
 
 .gradle
 build
+local.properties
