@@ -39,9 +39,6 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'com.jfrog.bintray'
 
-    targetCompatibility = '11'
-    sourceCompatibility = '11'
-
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     compileJava.options.compilerArgs \
