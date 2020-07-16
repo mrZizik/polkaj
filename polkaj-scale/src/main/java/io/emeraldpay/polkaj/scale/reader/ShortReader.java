@@ -1,10 +1,10 @@
 package io.emeraldpay.polkaj.scale.reader;
 
-import io.emeraldpay.polkaj.scale.ScaleCodecReader;
-import io.emeraldpay.polkaj.scale.ScaleReader;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import io.emeraldpay.polkaj.scale.ScaleCodecReader;
+import io.emeraldpay.polkaj.scale.ScaleReader;
 
 /**
  * Read Java Integer encoded as 4 byte SCALE value. Please note that since Java Integer is signed type, it may
@@ -13,14 +13,12 @@ import java.nio.ByteOrder;
  *
  * @see UInt32Reader
  */
-public class Int32Reader implements ScaleReader<Integer> {
+public class ShortReader implements ScaleReader<Short> {
     @Override
-    public Integer read(ScaleCodecReader rdr) {
-        ByteBuffer buf = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
+    public Short read(ScaleCodecReader rdr) {
+        ByteBuffer buf = ByteBuffer.allocate(2).order(ByteOrder.LITTLE_ENDIAN);
         buf.put(rdr.readByte());
         buf.put(rdr.readByte());
-        buf.put(rdr.readByte());
-        buf.put(rdr.readByte());
-        return ((ByteBuffer) buf.flip()).getInt();
+        return ((ByteBuffer) buf.flip()).getShort();
     }
 }

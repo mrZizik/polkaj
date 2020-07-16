@@ -3,3 +3,16 @@ dependencies {
 
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.3")
 }
+
+task deleteJar(type: Delete) {
+    delete 'libs/jars/libscaletypes.jar'
+}
+
+task createJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('libs/jars/')
+    include('classes.jar')
+    rename('classes.jar', 'libscaletypes.jar')
+}
+
+createJar.dependsOn(deleteJar, build)

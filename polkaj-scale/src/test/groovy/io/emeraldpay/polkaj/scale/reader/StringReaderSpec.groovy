@@ -4,18 +4,21 @@ import io.emeraldpay.polkaj.scale.ScaleCodecReader
 import org.apache.commons.codec.binary.Hex
 import spock.lang.Specification
 
+import java.nio.charset.StandardCharsets
+
 class StringReaderSpec extends Specification {
 
     StringReader reader = ScaleCodecReader.STRING
 
     def "Read"() {
         when:
-        // Hello World!
-        // 48 65 6c 6c 6f 20 57 6f 72 6c 64 21
-        // 12 << 2 + 0b00 = 0x30
-        def codec = new ScaleCodecReader(Hex.decodeHex( "30" + "48656c6c6f20576f726c6421"))
+        def codec = new ScaleCodecReader(Hex.decodeHex( hex))
         def act = codec.read(reader)
         then:
-        act == "Hello World!"
+        act == value
+        where:
+        hex    | value
+        "3048656c6c6f20576f726c6421" | "Hello World!"
+        "1c" + Hex.encodeHexString("asdadad".getBytes(StandardCharsets.UTF_8)) | "asdadad"
     }
 }

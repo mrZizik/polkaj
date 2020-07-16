@@ -5,11 +5,14 @@ import io.emeraldpay.polkaj.scale.writer.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class ScaleCodecWriter implements Closeable {
 
     public static final CompactUIntWriter COMPACT_UINT = new CompactUIntWriter();
+    public static final ShortWriter SHORT_WRITER = new ShortWriter();
+    public static final LongWriter LONG_WRITER = new LongWriter();
     public static final UInt16Writer UINT16 = new UInt16Writer();
     public static final UInt32Writer UINT32 = new UInt32Writer();
     public static final ULong32Writer ULONG32 = new ULong32Writer();
@@ -112,12 +115,25 @@ public class ScaleCodecWriter implements Closeable {
         if (writer instanceof BoolOptionalWriter || writer instanceof BoolWriter) {
             BOOL_OPT.write(this, (Optional<Boolean>) value);
         } else {
-            if (value.isEmpty()) {
-                BOOL.write(this, false);
-            } else {
+            if (value.isPresent()) {
                 BOOL.write(this, true);
                 writer.write(this, value.get());
+            } else {
+                BOOL.write(this, false);
             }
         }
+    }
+
+    public void writeString(String value) throws IOException {
+        byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
+        writeByteArray(bytes);
+    }
+
+    public void writeShort(Short value) throws IOException {
+        SHORT_WRITER.write(this, value);
+    }
+
+    public void writeLong(Long value) throws IOException {
+        LONG_WRITER.write(this, value);
     }
 }

@@ -9,6 +9,8 @@ import java.util.Optional;
  */
 public class ScaleCodecReader {
 
+    public static final ShortReader SHORT_READER = new ShortReader();
+    public static final LongReader LONG_READER = new LongReader();
     public static final UByteReader UBYTE = new UByteReader();
     public static final UInt16Reader UINT16 = new UInt16Reader();
     public static final UInt32Reader UINT32 = new UInt32Reader();
@@ -142,5 +144,13 @@ public class ScaleCodecReader {
      */
     public String readString() {
         return new String(readByteArray());
+    }
+
+    public Short readShort() {
+        return SHORT_READER.read(this);
+    }
+
+    public Long readLong() {
+        return LONG_READER.read(this);
     }
 }
